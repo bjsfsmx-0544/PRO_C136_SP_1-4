@@ -7,7 +7,7 @@ app = Flask(__name__)
 def home():
     return render_template('index.html')
 
-# api listening to POST requests and predicting sentiments
+# API escuchando las solicitudes POST y prediciendo sentimientos
 @app.route('/predict' , methods = ['POST'])
 def predict():
 
@@ -15,42 +15,42 @@ def predict():
     review = request.json.get('customer_review')
     if not review:
         response = {'status' : 'error',
-                    'message' : 'Empty Review'}
+                    'message' : 'Reseña vacía'}
     
     else:
 
-        # calling the predict method from prediction.py module
+        # Llamando al método predict del módulo prediction.py
         sentiment , path = prediction.predict(review)
         response = {'status' : 'success',
-                    'message' : 'Got it',
+                    'message' : 'Listo',
                     'sentiment' : sentiment,
                     'path' : path}
 
     return jsonify(response)
 
 
-# Creating an API to save the review, user clicks on the Save button
+# Creando una API para guardar la resela, el usuario hace clic en el botón Guardar
 @app.route('/save' , methods = ['POST'])
 def save():
 
-    # extracting date , product name , review , sentiment associated from the JSOn data
+    # Extrayendo la fecha, nombre del producto, reseña, sentimiento asociado a los datos JSON
     date = request.json.get('date')
     product = request.json.get('product')
     review = request.json.get('review')
     sentiment = request.json.get('sentiment')
 
-    # creating a final variable seperated by commas
+    # Creando una variable final separada por comas
     data_entry = date + "," + product + "," + review + "," + sentiment
 
-    # open the file in the 'append' mode
+    # Abriendo el archivo en modo "append"
     f = open('./static/assets/datafiles/data_entry.csv' , 'a')
 
-    # Log the data in the file
+    # Añadiendo los datos en el archivo
     f.write(data_entry + '\n')
 
-    # return a success message
+    # Regresando un mensaje de éxito
     return jsonify({'status' : 'success' , 
-                    'message' : 'Data Logged'})
+                    'message' : 'Datos ingresados'})
 
 
 if __name__  ==  "__main__":
