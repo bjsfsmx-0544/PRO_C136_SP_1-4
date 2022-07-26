@@ -33,7 +33,7 @@ $(document).ready(function(){
             //  Tipo de dato de la respuesta esperada
             dataType : 'json',
 
-            //  Typo de contenido
+            //  Tipo de contenido
             contentType : 'application/json',
 
             //  Método success
